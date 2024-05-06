@@ -21,8 +21,7 @@ function getWeather(city, language) {
   .then(res => res.json())
   .then(result => {
     console.log(result);
-    setWeatherInfo(result)
-    
+    setWeatherInfo(result);
   })
   .catch(err => setWeatherInfo(err));
 };
