@@ -45,6 +45,7 @@ function getWeather(city, language) {
 function setWeatherInfo(info){
   if(info.error){
     weatherTemp.innerHTML = "";
+    weatherCondition.innerHTML = "";
     weatherCityInfo.innerHTML="Помилка! Спробуйте знову ввести місто";
     return;
   }
