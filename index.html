@@ -4,18 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  <title>Weather App</title>
+  <link rel="stylesheet" href="./style.css">
+  <title>Погода</title>
 </head>
 <body>
   <form class="search-form">
     <input type="text" class="city">
     <input type="submit">
-    <div class="weather-info">
-      <h1 class="weather-city-info">Введіть ваше місто...</h1>
-      <h2 class="weather-condition"></h2>
-      <h2 class="weather-temp"></h2>
-    </div>
   </form>
+
+  <div class="weather-info">
+    <h1 class="city">Введіть ваше місто...</h1>
+    <h2 class="condition"></h2>
+    <h2 class="temp"></h2>
+    <h2 class="feelslike-temp"></h2>
+    <h2 class="uv"></h2>
+    <h2 class="humidity"></h2>
+    <h2 class="gust"></h2>
+  </div>
 
   <script src="./index.js"></script>
 </body>
