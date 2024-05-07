@@ -8,6 +8,16 @@ searchForm.addEventListener("submit", onSubmit);
 const cityInput = document.querySelector(".city");
 const weatherInfoParentArray = Array.from(document.querySelector(".weather-info").children);
 
+
+function changeLoaderDisplay(){
+  const loaderStyle = document.querySelector(".loader-div").style;
+  if(loaderStyle.display === "none" || loaderStyle.display === ""){
+    loaderStyle.display = "flex";
+    return;
+  }
+  loaderStyle.display = "";
+
+}
 async function setLocation(){
   const city = await getLocation();
   if(city){
@@ -17,8 +27,10 @@ async function setLocation(){
 }
 
 async function getLocation(){
+  changeLoaderDisplay();
   const locationData = await fetch("https://api.ipdata.co?api-key=9a161b5d9fdd32f4441bfe6aaf32078a994e04db5a0bf26861703299");
   const locationJson = await locationData.json();
+  changeLoaderDisplay();
   return locationJson.city || null
 }
 
@@ -31,8 +43,10 @@ async function onSubmit(event){
 
 };
 async function getWeather(city, language) {
+  changeLoaderDisplay();
   const weatherData = await fetch(`http://api.weatherapi.com/v1/.json/current.json?key=a38a326c50334925bd2194147240605&q=${city}&lang=${language}&days=15`);
   const weatherJson = await weatherData.json();
+  changeLoaderDisplay();
   return weatherJson;
 };
 
@@ -44,6 +58,7 @@ function setWeatherInfo(info){
   const uv = weatherInfoParentArray.find((el) => el.className == "uv");
   const humidity = weatherInfoParentArray.find((el) => el.className == "humidity");
   const gust = weatherInfoParentArray.find((el) => el.className == "gust");
+  //Додати верогідність дощу и прогнз по годинам и на тиждень + зробити завантаження 
   
 
   if(info.error){
