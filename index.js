@@ -44,7 +44,7 @@ async function onSubmit(event){
 };
 async function getWeather(city, language) {
   changeLoaderDisplay();
-  const weatherData = await fetch(`http://api.weatherapi.com/v1/.json/current.json?key=a38a326c50334925bd2194147240605&q=${city}&lang=${language}&days=15`);
+  const weatherData = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=a38a326c50334925bd2194147240605&q=${city}&lang=${language}&days=14`);
   const weatherJson = await weatherData.json();
   changeLoaderDisplay();
   return weatherJson;
@@ -53,12 +53,16 @@ async function getWeather(city, language) {
 function setWeatherInfo(info){
   const city = weatherInfoParentArray.find((el) => el.className == "city");
   const condition = weatherInfoParentArray.find((el) => el.className == "condition");
+  const conditionImage = weatherInfoParentArray.find((el) => el.className == "condition-image");
   const temp = weatherInfoParentArray.find((el) => el.className == "temp");
   const feelsLikeTemp = weatherInfoParentArray.find((el) => el.className == "feelslike-temp");
   const uv = weatherInfoParentArray.find((el) => el.className == "uv");
   const humidity = weatherInfoParentArray.find((el) => el.className == "humidity");
   const gust = weatherInfoParentArray.find((el) => el.className == "gust");
-  //Додати верогідність дощу и прогнз по годинам и на тиждень + зробити завантаження 
+  const forecastHoursList = weatherInfoParentArray.find((el) => el.className == "forecast-hours-list");
+  const forecastDaysList = weatherInfoParentArray.find((el) => el.className == "forecast-days-list");
+
+  //Додати верогідність дощу и прогнз по годинам и на тиждень
   
 
   if(info.error){
@@ -71,11 +75,34 @@ function setWeatherInfo(info){
 
   city.innerHTML = info.location.name;
   condition.innerHTML = `Стан: ${info.current.condition.text}`;
+  conditionImage.src = info.current.condition.icon;
   temp.innerHTML = `Температура:${info.current.temp_c }°C`;
   feelsLikeTemp.innerHTML = `Відчувається як: ${info.current.feelslike_c} °C`;
   uv.innerHTML = `УФ індекс: ${info.current.uv}`;
   humidity.innerHTML = `Вологість: ${info.current.humidity}%`;
   gust.innerHTML = `Вітер: ${info.current.gust_kph} км/год`;
+
+
+  for(let i of info.forecast.forecastday[0].hour){
+    const li = document.createElement("li");
+    const img = document.createElement("img");
+
+    img.src = i.condition.icon
+    li.innerHTML = `${i.time.split(" ")[1]}  ${i.temp_c} °C ${i.chance_of_rain || i.chance_of_snow}%`
+    forecastHoursList.appendChild(li);
+    li.appendChild(img);
+  }
+
+  for(let i of info.forecast.forecastday){
+    const li = document.createElement("li");
+    const img = document.createElement("img");
+
+    img.src = i.day.condition.icon;
+    li.innerHTML = `${i.date}  ${i.day.avgtemp_c} °C ${i.day.daily_chance_of_rain || i.day.daily_chance_of_snow}% `
+    forecastDaysList.appendChild(li);
+    li.appendChild(img);
+    
+  }
 
 
 }
