@@ -5,7 +5,7 @@ document.querySelector("body").onload = setLocation();
 const searchForm = document.querySelector(".search-form");
 searchForm.addEventListener("submit", onSubmit);
 
-const cityInput = document.querySelector(".city");
+const searchInput = document.querySelector(".search-input");
 const weatherInfoParentArray = Array.from(document.querySelector(".weather-info").children);
 
 
@@ -37,7 +37,7 @@ async function getLocation(){
 async function onSubmit(event){
   event.preventDefault();
   
-  const cityName = cityInput.value;
+  const cityName = searchInput.value;
   const weather = await getWeather(cityName, language);
   setWeatherInfo(weather);
 
@@ -69,6 +69,7 @@ function setWeatherInfo(info){
     for(i = 0; i< weatherInfoParentArray.length; i++){
       weatherInfoParentArray[i].innerHTML = "";
     }
+    conditionImage.src = "";
     city.innerHTML="Помилка! Спробуйте знову ввести місто";
     return;
   }
@@ -81,9 +82,15 @@ function setWeatherInfo(info){
   uv.innerHTML = `УФ індекс: ${info.current.uv}`;
   humidity.innerHTML = `Вологість: ${info.current.humidity}%`;
   gust.innerHTML = `Вітер: ${info.current.gust_kph} км/год`;
+  searchInput.value = "";
 
 
   for(let i of info.forecast.forecastday[0].hour){
+    const currentDate = new Date();
+    const nowTime = currentDate.toLocaleTimeString();
+    if(nowTime.split(":")[0] >= i.time.split(" ")[1].split(":")[0]){
+      continue;
+    }
     const li = document.createElement("li");
     const img = document.createElement("img");
 
@@ -94,15 +101,23 @@ function setWeatherInfo(info){
   }
 
   for(let i of info.forecast.forecastday){
+    const daysArr = ["Понеділок", "Вівторок", "Середа", "Четвер", "Пʼятниця", "Субота", "Неділя"];
+    const dayNum = new Date(i.date).getDay();
+    const monthArr = ["січня", "лютого", "березня", "квітня", "травня", "червня", "липня", "серпня", "вересня", "жовтня", "листопада", "грудня"];
+    const monthNum = new Date(i.date).getMonth();
     const li = document.createElement("li");
     const img = document.createElement("img");
 
     img.src = i.day.condition.icon;
-    li.innerHTML = `${i.date}  ${i.day.avgtemp_c} °C ${i.day.daily_chance_of_rain || i.day.daily_chance_of_snow}% `
+    li.innerHTML = `${daysArr[dayNum]}, ${i.date.split("-")[2]} ${monthArr[monthNum]}  ${i.day.avgtemp_c} °C ${i.day.daily_chance_of_rain || i.day.daily_chance_of_snow}% `
     forecastDaysList.appendChild(li);
     li.appendChild(img);
     
   }
+
+
+
+
 
 
 }
