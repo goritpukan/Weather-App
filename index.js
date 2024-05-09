@@ -73,7 +73,13 @@ function setWeatherInfo(info){
     forecastDaysList.innerHTML = "";
     forecastHoursList.innerHTML = "";
 
+    forecastDaysList.style.display = "none";
+    forecastHoursList.style.display = "none";
+    
+
     conditionImage.style.display = "none";
+
+
     city.innerHTML="Помилка! Спробуйте знову ввести місто";
     document.querySelectorAll(".main-info h1, h2").forEach((el) => {
       el.style.borderBottom = "0px";
@@ -85,6 +91,9 @@ function setWeatherInfo(info){
     el.style.borderBottom = "";
   });
   conditionImage.style.display = "inline";
+
+  forecastDaysList.style.display = "flex";
+  forecastHoursList.style.display = "flex";
 
   city.innerHTML = info.location.name;
   condition.innerHTML = `Стан: ${info.current.condition.text}`;

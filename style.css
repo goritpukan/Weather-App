@@ -37,7 +37,7 @@ body {
 
 .search-form input[type="submit"] {
   -webkit-appearance: none;
-  
+  -moz-appearance: none;
   width: 100px;
   height: calc(60% + 2px);
 
