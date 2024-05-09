@@ -36,6 +36,8 @@ body {
 }
 
 .search-form input[type="submit"] {
+  -webkit-appearance: none;
+  
   width: 100px;
   height: calc(60% + 2px);
 
@@ -68,7 +70,7 @@ body {
 
 .forecast-hours-list, .forecast-days-list{
   background-color: rgb(21, 115, 208);
-  
+
   list-style-type: none;
 
   border-radius: 20px;
