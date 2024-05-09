@@ -56,7 +56,6 @@ async function getWeather(city, language) {
 };
 
 function setWeatherInfo(info){
-  //Розділити по дівам і шукати окремо по блокам + скривати картинку повністю і
   const city = weatherMainInfo.find((el) => el.className == "city");
   const condition = weatherMainInfo.find((el) => el.className == "condition");
   const conditionImage = weatherMainInfo.find((el) => el.className == "condition-image");
@@ -101,9 +100,9 @@ function setWeatherInfo(info){
   for(let i of info.forecast.forecastday[0].hour){
     const currentDate = new Date();
     const nowTime = currentDate.toLocaleTimeString();
-    // if(nowTime.split(":")[0] >= i.time.split(" ")[1].split(":")[0]){
-    //   continue;
-    // }
+    if(nowTime.split(":")[0] >= i.time.split(" ")[1].split(":")[0]){
+      continue;
+    }
     const li = document.createElement("li");
     const span = document.createElement("span");
     const img = document.createElement("img");
