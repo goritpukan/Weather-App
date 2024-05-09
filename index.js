@@ -6,7 +6,10 @@ const searchForm = document.querySelector(".search-form");
 searchForm.addEventListener("submit", onSubmit);
 
 const searchInput = document.querySelector(".search-input");
-const weatherInfoParentArray = Array.from(document.querySelector(".weather-info").children);
+const weatherMainInfo = Array.from(document.querySelector(".main-info").children);
+
+const forecastHoursList = document.querySelector(".forecast-hours-list");
+const forecastDaysList = document.querySelector(".forecast-days-list");
 
 
 function changeLoaderDisplay(){
@@ -36,7 +39,9 @@ async function getLocation(){
 
 async function onSubmit(event){
   event.preventDefault();
-  
+  if(searchInput.value.length < 1)
+    return;
+
   const cityName = searchInput.value;
   const weather = await getWeather(cityName, language);
   setWeatherInfo(weather);
@@ -51,28 +56,36 @@ async function getWeather(city, language) {
 };
 
 function setWeatherInfo(info){
-  const city = weatherInfoParentArray.find((el) => el.className == "city");
-  const condition = weatherInfoParentArray.find((el) => el.className == "condition");
-  const conditionImage = weatherInfoParentArray.find((el) => el.className == "condition-image");
-  const temp = weatherInfoParentArray.find((el) => el.className == "temp");
-  const feelsLikeTemp = weatherInfoParentArray.find((el) => el.className == "feelslike-temp");
-  const uv = weatherInfoParentArray.find((el) => el.className == "uv");
-  const humidity = weatherInfoParentArray.find((el) => el.className == "humidity");
-  const gust = weatherInfoParentArray.find((el) => el.className == "gust");
-  const forecastHoursList = weatherInfoParentArray.find((el) => el.className == "forecast-hours-list");
-  const forecastDaysList = weatherInfoParentArray.find((el) => el.className == "forecast-days-list");
-
-  //Додати верогідність дощу и прогнз по годинам и на тиждень
+  //Розділити по дівам і шукати окремо по блокам + скривати картинку повністю і
+  const city = weatherMainInfo.find((el) => el.className == "city");
+  const condition = weatherMainInfo.find((el) => el.className == "condition");
+  const conditionImage = weatherMainInfo.find((el) => el.className == "condition-image");
+  const temp = weatherMainInfo.find((el) => el.className == "temp");
+  const feelsLikeTemp = weatherMainInfo.find((el) => el.className == "feelslike-temp");
+  const uv = weatherMainInfo.find((el) => el.className == "uv");
+  const humidity = weatherMainInfo.find((el) => el.className == "humidity");
+  const gust = weatherMainInfo.find((el) => el.className == "gust");
   
 
   if(info.error){
-    for(i = 0; i< weatherInfoParentArray.length; i++){
-      weatherInfoParentArray[i].innerHTML = "";
+    for(i = 0; i< weatherMainInfo.length; i++){
+      weatherMainInfo[i].innerHTML = "";
     }
-    conditionImage.src = "";
+    forecastDaysList.innerHTML = "";
+    forecastHoursList.innerHTML = "";
+
+    conditionImage.style.display = "none";
     city.innerHTML="Помилка! Спробуйте знову ввести місто";
+    document.querySelectorAll(".main-info h1, h2").forEach((el) => {
+      el.style.borderBottom = "0px";
+    });
     return;
   }
+  // idk how it works
+  document.querySelectorAll(".main-info h1, h2").forEach((el) => {
+    el.style.borderBottom = "";
+  });
+  conditionImage.style.display = "inline";
 
   city.innerHTML = info.location.name;
   condition.innerHTML = `Стан: ${info.current.condition.text}`;
@@ -88,16 +101,18 @@ function setWeatherInfo(info){
   for(let i of info.forecast.forecastday[0].hour){
     const currentDate = new Date();
     const nowTime = currentDate.toLocaleTimeString();
-    if(nowTime.split(":")[0] >= i.time.split(" ")[1].split(":")[0]){
-      continue;
-    }
+    // if(nowTime.split(":")[0] >= i.time.split(" ")[1].split(":")[0]){
+    //   continue;
+    // }
     const li = document.createElement("li");
+    const span = document.createElement("span");
     const img = document.createElement("img");
 
     img.src = i.condition.icon
-    li.innerHTML = `${i.time.split(" ")[1]}  ${i.temp_c} °C ${i.chance_of_rain || i.chance_of_snow}%`
+    span.innerHTML = `${i.time.split(" ")[1]}  ${i.temp_c} °C ${i.chance_of_rain || i.chance_of_snow}%`
     forecastHoursList.appendChild(li);
     li.appendChild(img);
+    li.appendChild(span);
   }
 
   for(let i of info.forecast.forecastday){
@@ -114,10 +129,5 @@ function setWeatherInfo(info){
     li.appendChild(img);
     
   }
-
-
-
-
-
 
 }
