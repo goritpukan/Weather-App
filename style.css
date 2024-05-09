@@ -35,9 +35,7 @@ body {
   text-align: center;
 }
 
-.search-form input[type="submit"] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
+.search-form button {
   width: 100px;
   height: calc(60% + 2px);
 

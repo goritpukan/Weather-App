@@ -6,6 +6,7 @@ const searchForm = document.querySelector(".search-form");
 searchForm.addEventListener("submit", onSubmit);
 
 const searchInput = document.querySelector(".search-input");
+const submit = document.querySelector(".submit").addEventListener("click", onSubmit);
 const weatherMainInfo = Array.from(document.querySelector(".main-info").children);
 
 const forecastHoursList = document.querySelector(".forecast-hours-list");
