@@ -31,11 +31,15 @@ body {
   background-color: white;
 }
 
-.search-form .search-input::placeholder{
+.search-form .search-input::placeholder {
   text-align: center;
 }
 
-.search-form button {
+.search-form .submit {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  
   width: 100px;
   height: calc(60% + 2px);
 
@@ -46,7 +50,7 @@ body {
   font-size: 15px;
 }
 
-.main-info{
+.main-info {
   z-index: 2;
   background-color: rgb(21, 115, 208);
 
@@ -62,11 +66,14 @@ body {
   text-align: center;
 
 }
-.main-info h1, h2:not(:last-child) {
+
+.main-info h1,
+h2:not(:last-child) {
   border-bottom: 5px solid rgb(215, 215, 215);
 }
 
-.forecast-hours-list, .forecast-days-list{
+.forecast-hours-list,
+.forecast-days-list {
   background-color: rgb(21, 115, 208);
 
   list-style-type: none;
@@ -87,11 +94,12 @@ body {
 
 }
 
-.forecast-hours-list{
+.forecast-hours-list {
   margin-bottom: 20px;
   flex-direction: row;
   overflow: scroll;
 }
+
 .forecast-hours-list::-webkit-scrollbar {
   display: none;
 }
@@ -104,12 +112,12 @@ body {
   grid-template-rows: 1fr 64px
 }
 
-.forecast-hours-list li img{
+.forecast-hours-list li img {
   align-self: center;
 }
 
 
-.forecast-days-list{
+.forecast-days-list {
   height: auto;
   flex-direction: column;
   overflow: visible;
@@ -117,7 +125,7 @@ body {
   width: calc(85% + 40px);
 }
 
-.forecast-days-list li{
+.forecast-days-list li {
   text-align: center;
   width: 100%;
   margin-top: 5px;
@@ -132,21 +140,22 @@ body {
   justify-self: center;
 }
 
-.forecast-days-list li:not(:last-child){
+.forecast-days-list li:not(:last-child) {
   border-bottom: 5px solid rgb(215, 215, 215);
 }
 
 @media (width <=485px) {
-  .search-form .search-input{
+  .search-form .search-input {
     width: 70%;
   }
-  .search-form input[type="submit"]{
+
+  .search-form input[type="submit"] {
     width: 70px;
 
     font-size: 10px;
   }
 
-  .main-info{
+  .main-info {
     width: 95%;
   }
 }
